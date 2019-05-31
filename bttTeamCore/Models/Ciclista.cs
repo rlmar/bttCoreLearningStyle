@@ -30,6 +30,8 @@ namespace bttTeamCore.Models
 
         public virtual ICollection<Foto> Fotos { get; set; }
 
+        [Required]
+        public String UserFK { get; set; }
 
     }
 }

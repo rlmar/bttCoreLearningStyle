@@ -10,8 +10,8 @@ using bttTeamCore.Data;
 namespace bttTeamCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190524152506_Init0")]
-    partial class Init0
+    [Migration("20190531163504_init0")]
+    partial class init0
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -209,6 +209,9 @@ namespace bttTeamCore.Data.Migrations
                     b.Property<string>("Telemovel")
                         .IsRequired();
 
+                    b.Property<string>("UserFK")
+                        .IsRequired();
+
                     b.HasKey("ID");
 
                     b.ToTable("Ciclistas");
@@ -245,9 +248,15 @@ namespace bttTeamCore.Data.Migrations
                     b.Property<string>("NomeFoto")
                         .IsRequired();
 
+                    b.Property<int>("ProvaId");
+
+                    b.Property<bool>("Visivel");
+
                     b.HasKey("ID");
 
                     b.HasIndex("CiclistaId");
+
+                    b.HasIndex("ProvaId");
 
                     b.ToTable("Fotos");
                 });
@@ -367,6 +376,11 @@ namespace bttTeamCore.Data.Migrations
                     b.HasOne("bttTeamCore.Models.Ciclista", "Ciclista")
                         .WithMany("Fotos")
                         .HasForeignKey("CiclistaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("bttTeamCore.Models.Prova", "Prova")
+                        .WithMany()
+                        .HasForeignKey("ProvaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

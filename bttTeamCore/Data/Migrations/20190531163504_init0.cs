@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace bttTeamCore.Data.Migrations
 {
-    public partial class Init0 : Migration
+    public partial class init0 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,8 @@ namespace bttTeamCore.Data.Migrations
                     Mail = table.Column<string>(nullable: false),
                     DataNascimento = table.Column<DateTime>(nullable: false),
                     BI = table.Column<string>(nullable: false),
-                    Localidade = table.Column<string>(nullable: false)
+                    Localidade = table.Column<string>(nullable: false),
+                    UserFK = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,7 +66,9 @@ namespace bttTeamCore.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     NomeFoto = table.Column<string>(nullable: false),
                     Descricao = table.Column<string>(maxLength: 255, nullable: true),
-                    CiclistaId = table.Column<int>(nullable: false)
+                    Visivel = table.Column<bool>(nullable: false),
+                    CiclistaId = table.Column<int>(nullable: false),
+                    ProvaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,6 +77,12 @@ namespace bttTeamCore.Data.Migrations
                         name: "FK_Fotos_Ciclistas_CiclistaId",
                         column: x => x.CiclistaId,
                         principalTable: "Ciclistas",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Fotos_Provas_ProvaId",
+                        column: x => x.ProvaId,
+                        principalTable: "Provas",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -123,6 +132,11 @@ namespace bttTeamCore.Data.Migrations
                 name: "IX_Fotos_CiclistaId",
                 table: "Fotos",
                 column: "CiclistaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Fotos_ProvaId",
+                table: "Fotos",
+                column: "ProvaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_provaCiclEquipas_CiclistaId",
